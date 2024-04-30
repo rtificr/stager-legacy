@@ -62,8 +62,12 @@ Adding whitespace of any kind at the start of a choice or question is not recomm
 ### Name formatting
 Adding whitespace at the start of an element name or destination may give unintended behavior.
 
-The name of the element `  start:Hello! {}` is " start", not "start" (note the leading space).  
-The destination of the choice `Go to work\ work` is " work" not "work" (note the leading space).
+The name of the element  
+`  start:Hello! {}`  
+is " start", not "start" (note the leading space).  
+The destination of the choice  
+`Go to work\ work`  
+is " work" not "work" (note the leading space).
 
 This may trip you up if you fail to eliminate whitespace and wonder why "#1 leads to nothing".
 

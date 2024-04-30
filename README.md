@@ -2,8 +2,10 @@
 Stager is a runtime environment for ACT (adventure/choice tree) files, which are high-level files that contain choose-your-own-adventure stories.
 ## Running an act
 Running an act file is easy. Either load Stager and type in the name of the act you would like to run *(do not include .act)*, or just open an act with Stager (you can also drag and drop acts onto stager.exe).
+
+*Important: you can only load an act by name if it is in the given "input" folder.*
 ## Interacting
-Once an act has began, you
+Once an act has began, you simply type the number that corresponds with the choice given.
 # ACT Syntax
 ## Descriptors
 Acts should begin with a title, the author(s) and a description. These are called the *descriptors* and are declared like this:

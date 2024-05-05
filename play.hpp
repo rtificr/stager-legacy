@@ -15,4 +15,6 @@ class Choice {
 public:
 	std::string choice;
 	std::string destination;
+	bool valid;
 };
+

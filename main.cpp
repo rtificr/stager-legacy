@@ -18,13 +18,15 @@ int main(int argc, char* argv[])
     std::cout << "  ____) |  | |/ ____ \\ |__| |  __/ | \\ \\ \n";
     std::cout << " |_____/   |_/_/    \\_\\_____|\\___|_|  \\_\\\n";
 
-    std::cout << "v1.1.4\n\n";
+    std::cout << "v1.2.2\n\n";
     std::cout << "Static Text-based Adventure Game Runtime\n\n";
 
+    /*
     std::filesystem::path executable_path = std::filesystem::absolute(argv[0]).parent_path();
     std::cout << "CURRENT WORKING DIRECTORY: " << executable_path << '\n';
     std::filesystem::current_path(executable_path);
     std::cout << "NEW WORKING DIRECTORY: " << std::filesystem::current_path() << '\n';
+    */
 
     //if loaded from double-clicking on ACT file, run with that file
     if (argc == 2) {

@@ -6,7 +6,6 @@
 #include <sstream>
 #include "main.hpp"
 #include "load.hpp"
-#include "string.hpp"
 #include <regex>
 
 //TAD descriptors storage
@@ -66,13 +65,18 @@ void Loader::LoadActToMap(std::string cleaned_act, std::map<std::string, std::st
 	//gets line up to the closing bracket
 	while (std::getline(cleaned_act_stream, buffer, '}')) {
 		//used for finding the index
-		std::regex index_pattern(".*?(?=:)");
+		std::regex index_pattern(".*\s*(?=:)");
 		//finds the index (includes the trailing colon)
 		std::smatch index_match;
 		//get question index, remove it from string, and add string to act at said index
 		if (std::regex_search(buffer, index_match, index_pattern)) {
 			std::string index = index_match[0];
-			replace_all(buffer, index + ":", "");
+
+			//used for cleaning up the beginning
+			std::regex cleanup_pattern(R"(^\s*.*?\s*:\s*)");
+
+			buffer = std::regex_replace(buffer, cleanup_pattern, "");
+
 			outVec[index].str(buffer);
 		}
 	}
@@ -80,9 +84,9 @@ void Loader::LoadActToMap(std::string cleaned_act, std::map<std::string, std::st
 //parse and load TAD descriptors from the act file
 void Loader::LoadTad(std::string& cleaned_act) {
 	//regex patterns for matching tad descriptors
-	std::regex p_title(R"(T:(.*?)(?=\\))", std::regex_constants::icase);
-	std::regex p_author(R"(A:(.*?)(?=\\))", std::regex_constants::icase);
-	std::regex p_desc(R"(D:(.*?)(?=\\))", std::regex_constants::icase);
+	std::regex  p_title(R"((^|\\)T\s*:\s*(.*?)(\\))", std::regex_constants::icase);
+	std::regex p_author(R"((^|\\)A\s*:\s*(.*?)(\\))", std::regex_constants::icase);
+	std::regex   p_desc(R"((^|\\)D\s*:\s*(.*?)(\\))", std::regex_constants::icase);
 	//stores the tad descriptors as regex matches
 	std::smatch r_title;
 	std::smatch r_author;
@@ -94,23 +98,20 @@ void Loader::LoadTad(std::string& cleaned_act) {
 
 	//locates and assigns descriptors to strings, as well as disposes of them in the act
 	if (std::regex_search(cleaned_act, r_title, p_title)) {
-		title = r_title[1];
-		f_title = "T:" + title + "\\";
-		replace_all(cleaned_act, f_title, "");
+		title = r_title[2];
+		cleaned_act = std::regex_replace(cleaned_act, p_title, "");
 	}
 	else std::cout << "Noncritical error: Title not found!\n";
 
 	if (std::regex_search(cleaned_act, r_author, p_author)) {
-		author = r_author[1];
-		f_author = "A:" + author + "\\";
-		replace_all(cleaned_act, f_author, "");
+		author = r_author[2];
+		cleaned_act = std::regex_replace(cleaned_act, p_author, "");
 	}
 	else std::cout << "Noncritical error: Author not found!\n";
 
 	if (std::regex_search(cleaned_act, r_desc, p_desc)) {
-		desc = r_desc[1];
-		f_desc = "D:" + desc + "\\";
-		replace_all(cleaned_act, f_desc, "");
+		desc = r_desc[2];
+		cleaned_act = std::regex_replace(cleaned_act, p_desc, "");
 	}
 	else std::cout << "Noncritical error: Description not found!\n";
 }

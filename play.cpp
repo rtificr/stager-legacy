@@ -26,38 +26,33 @@ void Player::Poll(std::string index, std::map<std::string, std::stringstream>& a
 	std::stringstream current_chunk(current_chunk_string);
 	//used as a buffer for loading things from the current chunk
 	std::string buffer;
-	
 	//stores the current choice. contains the text and the destination
 	Choice choice;
 	//stores all choices
 	std::vector<Choice> choices;
-
 	//parse out the question
 	std::getline(current_chunk, question, '{');
 	std::cout << '\n' << question << '\n';
 	Sleep(60);
-	std::cout << "======================\n";
+	std::cout << "\n";
 	Sleep(60);
-	//stores the amount of loops
-	int iterations = 0;
 	//constantly read until a backslash until the end of file.
-	//if even, output to the choice's "choice" string.
-	//if odd, output to the choice's destination.
 	while (std::getline(current_chunk, buffer, '\\')) {
-		if (iterations % 2 == 0)
-			choice.choice = buffer;
-		else {
-			choice.destination = buffer;
-			try {
-				act.at(choice.destination);
-			}
-			catch (std::out_of_range& e) {
-				std::cout << "\nNoncritical error: #" << choices.size() + 1 << " leads to nothing!\nIt will not be displayed.\n\n";
-				continue;
-			}
+		std::regex whitespace_pattern(R"(^\s*)");
+		buffer = std::regex_replace(buffer, whitespace_pattern, "");
+		choice.choice = buffer;
+		std::getline(current_chunk, buffer, '\\');
+		choice.destination = buffer;
+		try {
+			act.at(buffer);
+		}
+		catch (std::out_of_range& e) {
+			choice.valid = false;
 			choices.push_back(choice);
-		}	
-		iterations++;
+			continue;
+		}
+		choice.valid = true;
+		choices.push_back(choice);
 	}
 
 	//print all choices. printing everything will always 150ms.
@@ -65,14 +60,17 @@ void Player::Poll(std::string index, std::map<std::string, std::stringstream>& a
 	for (Choice i_choice : choices) {
 		read_iterations++;
 		Sleep(150 / choices.size());
-		std::cout << read_iterations << ": " << i_choice.choice << '\n';
+		if (i_choice.valid)
+			std::cout << read_iterations << ": " << i_choice.choice << '\n';
+		else
+			std::cout << "Noncritical error: Choice #" << read_iterations << " has an invalid destination!\n";
 	}
 
 	Sleep(60);
 
 	//takes choice only if there are choices
 	if (choices.size() != 0) {
-		std::cout << "======================\n\n";
+		std::cout << "\n\n";
 		std::cout << "Take your choice:\n";
 		int choice = TakeChoice() - 1;
 		//checks if valid choice. if not, try again.

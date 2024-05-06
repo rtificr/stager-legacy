@@ -2,43 +2,44 @@
 Stager is a runtime environment for ACT (adventure/choice tree) files, which are high-level files that contain choose-your-own-adventure stories.
 ## Running an act
 Running an act file is easy. Either load Stager and type in the name of the act you would like to run *(do not include .act)*, or just open an act with Stager (you can also drag and drop acts onto stager.exe).
-
 *IMPORTANT: you can only load an act by name if it is in the given "input" folder.*
-
 ## Interacting
 Once an act has begun, you simply type the number that corresponds with the choice given.
 # ACT Syntax
 ## Descriptors
 Acts should begin with a title, the author(s) and a description. These are called the *descriptors* and are declared like this:
 ```
-T: TITLE HERE\
-A: AUTHOR(S) HERE\
-D: DESCRIPTION HERE\
+T: title\
+A: author(s)\
+D: description\
 ```
+Replace `title`, `author(s)`, and `description` with the name of your story, your name, and a brief description (respectively).
 As you can see, backslashes are used as delimiters. This is important, as this is consistent throughout the whole file. 
 
-*Note: In the case that there are multiple authors, put them within the same "`A:   \`" section. If you instead make two separate author lines, only the first one will be counted.*
+*Note: In the case that there are multiple authors, put them within the same "`A:   \`" section. If you instead make two separate author lines, only the first one will be used.*
 
 ## Elements
 After that, we have the interactive story pieces, called *elements*. The syntax is formatted like this:
 ```
-NAME: CONTENT{
-	CHOICE\DESTINATION\
-	CHOICE\DESTINATION\
-	CHOICE\DESTINATION\
+name: content{
+	choice\destination\
+	choice\destination\
+	choice\destination\
 }
 ```
-The `NAME` can be thought of as the index of the element. 
+Replace `name` with the name you want to refer to it as.  
+*IMPORTANT: Stager starts at the element with the name "start". If there is no start element, it will fail to run.*  
 
-*IMPORTANT: Stager starts at the element with the name "start". If there is no start element, it will fail to run.*
-The `CONTENT` is usually the question of the element, but not always. 
+Replace `content` with bits of the story. Also add a question, unless it is the end of the story.
 
-Inside some curly brackets, you have the `CHOICE` and the `DESTINATION`. The choice is a decision the player can choose to make. After a backslash, the destination is the name of the element that choice should take you to if you choose it, and then add another backslash on the end.  
+Inside curly brackets, put as many choice and destination pairs as you want:  
+Replace `choice` with a decision the player can choose to make.  
+Replace `destination` with the name of the element you should be taken to if you choose the preceding decision.
 
-*IMPORTANT: the only way to end an act is to lead to an element with no choices.*
+You can end the story by leading to an element without any choices (empty brackets).
 
 Example act:
-```
+```  
 T: Example\
 A: Rtificr\
 D: An example act\
@@ -53,31 +54,30 @@ home: You went home! {}
 park: You went to the park! {}
 ```
 
-If you were to choose to go to the store, it would take you to the element named "`store`".  
-`store`, `home`, and `park` do not have any choices, which signifies the end.
+If you were to choose to go to the store, it would take you to the element named "`store`". 
 
 ## Formatting Advice
-### Element formatting
-Adding whitespace at the start of an element name or destination may give unintended behavior.  
-*Note: some "leading spaces" may not show up on the mobile app.*
+*In ACT files...*
+* Newlines do absolutely nothing.
+* Backslashes can *not* be used as escape characters.
+* Whitespace surrounding semantic colons are ignored.
 
-The name of the element  
-` start:Hello! {}`  
-is ` start`, not `start` (note the leading space).  
+### Name formatting
+Adding whitespace at the start of an element name or destination may give unintended behavior.
 
-The destination of the choice  
-`Go to work\ work`  
-is ` work` not `work` (note the leading space).
+*Note: some examples of "leading spaces" may not show up on the GitHub mobile app.*
 
-This may trip you up if you fail to eliminate whitespace and wonder why "#1 leads to nothing".  
+The name of the element ` start:Hello! {}` is ` start`, not `start` (note the leading space).  
+The destination of the choice `Go to work\ work` is ` work` not `work` (note the leading space).
 
-Adding whitespace immediately before or after the colon in an element/descriptor makes no difference.  
-`start:Hello, Stager! {}` is the same as `start: Hello, Stager! {}` and `start : Hello, Stager! {}`, as well as any other combinations of whitespace you can think of.
-
-*Note: Stager is completely indifferent to newlines. Use them wherever you want.*
+This may trip you up if you fail to eliminate whitespace and wonder why "Choice #1 leads to nothing".
 
 ### Descriptor formatting
+The descriptors also experience the same formatting issues that choices may have.
+However, there are some other things to worry about.
+
 If you happen to name an element "T", "A", or "D", you should be fine as long as you already have all your descriptors at the top of the file.  
+
 If any element named "T", "A", or "D" happens to come before the respective TAD descriptor, or if the descriptor doesn't exist, it will be used in place of the real descriptor.
 This may look weird but is otherwise harmless.
 ## Visual guide

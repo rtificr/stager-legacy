@@ -1,7 +1,17 @@
 # Stager (STAGeR)
 Stager is a runtime environment for ACT (adventure/choice tree) files, which are high-level files that contain choose-your-own-adventure stories.
+## Creating an act
+Steps:  
+1. Make a text file
+2. Write an act (using ACT syntax)
+3. Rename the file to have a `.act` file extension
+
+If you want to edit an ACT file, but double-clicking it triggers an app to open (like Stager or Photoshop), simply right-click on it > Edit with Notepad (or another text editor of your choice)
+
+*Note: I personally recommend Visual Studio Code to edit ACT files.*
 ## Running an act
 Running an act file is easy. Either load Stager and type in the name of the act you would like to run *(do not include .act)*, or just open an act with Stager (you can also drag and drop acts onto stager.exe).
+
 *IMPORTANT: you can only load an act by name if it is in the given "input" folder.*
 ## Interacting
 Once an act has begun, you simply type the number that corresponds with the choice given.
@@ -27,7 +37,8 @@ name: content{
 	choice\destination\
 }
 ```
-Replace `name` with the name you want to refer to it as.  
+Replace `name` with the name you want to refer to it as.
+
 *IMPORTANT: Stager starts at the element with the name "start". If there is no start element, it will fail to run.*  
 
 Replace `content` with bits of the story. Also add a question, unless it is the end of the story.
@@ -82,3 +93,12 @@ If any element named "T", "A", or "D" happens to come before the respective TAD 
 This may look weird but is otherwise harmless.
 ## Visual guide
 ![act-format-2](https://github.com/rtificr/stager/assets/102625530/18ea79a4-dc33-41a2-a208-82afbcf73e20)
+## Cheatsheet
+|**Keyword**|**Usage**|
+|-----------|---------|
+|T:|Declares the following text (until a backslash) as the title of the story|
+|A:|Declares the following text (until a backslash) as the author(s) of the story|
+|D:|Declares the following text (until a backslash) as the description of the story|
+|start|When used as the title of an element, the element will be used as the entry point of the file|
+|&#92;|Used as a delimiter in act files (and *not* as an escape character)|
+|{ }|Marks the text between them to be interpreted as choices|

@@ -60,7 +60,7 @@ If you were to choose to go to the store, it would take you to the element named
 *In ACT files...*
 * Newlines do absolutely nothing.
 * Backslashes can *not* be used as escape characters.
-* Whitespace surrounding semantic colons are ignored.
+* Whitespace surrounding semantic colons is ignored.
 
 ### Name formatting
 Adding whitespace at the start of an element name or destination may give unintended behavior.

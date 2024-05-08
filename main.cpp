@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     std::cout << "  ____) |  | |/ ____ \\ |__| |  __/ | \\ \\ \n";
     std::cout << " |_____/   |_/_/    \\_\\_____|\\___|_|  \\_\\\n";
 
-    std::cout << "v1.2.3\n\n";
+    std::cout << "v1.2.4\n\n";
     std::cout << "Static Text-based Adventure Game Runtime\n\n";
 
     /*

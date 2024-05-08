@@ -20,12 +20,17 @@ std::string Loader::LoadFile(bool abs_path, const char input[]) {
 	std::string cleaned_act;
 	//stores the directory as a string for easy use
 	std::string dir;
+	//stores the directory as a string for easy use (no input/). used if stager was loaded by opening an act file
+	std::string ez_dir;
 
 	//if using relative path, path is input/PATH HERE.act
 	if (!abs_path) {
 		dir = "input/";
 		dir += input;
 		dir += ".act";
+		
+		ez_dir = input;
+		ez_dir += ".act";
 	}
 	//if using absolute path, set directory to input and replace backslashes with forward slashes 
 	else {
@@ -37,6 +42,9 @@ std::string Loader::LoadFile(bool abs_path, const char input[]) {
 	
 	std::cout << "\nReading from " << dir << "...";
 
+	if (!infile.is_open()) {
+		infile.open(ez_dir);
+	}
 	if (!infile.is_open()) {
 		std::cout << "Reading failed.\nCheck if file exists in the \"input\" folder. Try again.\n";
 		start();
@@ -79,7 +87,7 @@ void Loader::LoadActToMap(std::string cleaned_act, std::map<std::string, std::st
 
 			outVec[index].str(buffer);
 
-			std::cout << ":" << index << "=> " << buffer << '\n';
+			//std::cout << ":" << index << "=> " << buffer << '\n';
 		}
 	}
 }

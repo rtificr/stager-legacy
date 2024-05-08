@@ -65,7 +65,7 @@ void Loader::LoadActToMap(std::string cleaned_act, std::map<std::string, std::st
 	//gets line up to the closing bracket
 	while (std::getline(cleaned_act_stream, buffer, '}')) {
 		//used for finding the index
-		std::regex index_pattern(".*\s*(?=:)");
+		std::regex index_pattern(".*?\s*?(?=:)");
 		//finds the index (includes the trailing colon)
 		std::smatch index_match;
 		//get question index, remove it from string, and add string to act at said index
@@ -78,11 +78,13 @@ void Loader::LoadActToMap(std::string cleaned_act, std::map<std::string, std::st
 			buffer = std::regex_replace(buffer, cleanup_pattern, "");
 
 			outVec[index].str(buffer);
+
+			std::cout << ":" << index << "=> " << buffer << '\n';
 		}
 	}
 }
 //parse and load TAD descriptors from the act file
-void Loader::LoadTad(std::string& cleaned_act) {
+void Loader::LoadTad(std::string& cleaned_act) { 
 	//regex patterns for matching tad descriptors
 	std::regex  p_title(R"((^|\\)T\s*:\s*(.*?)(\\))", std::regex_constants::icase);
 	std::regex p_author(R"((^|\\)A\s*:\s*(.*?)(\\))", std::regex_constants::icase);
